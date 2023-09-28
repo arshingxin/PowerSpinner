@@ -777,15 +777,16 @@ public class PowerSpinnerView : AppCompatTextView, DefaultLifecycleObserver {
 
   /** Returns the window height size of the spinner. */
   public fun getSpinnerHeight(): Int {
+    val topBottomPadding = padding.top + padding.bottom
     val height = when {
       spinnerPopupHeight != NO_INT_VALUE -> spinnerPopupHeight
       spinnerItemHeight != NO_INT_VALUE -> calculateSpinnerHeight()
       else -> getSpinnerRecyclerView().height
     }
     return when {
-      spinnerPopupMaxHeight == NO_INT_VALUE -> height
-      spinnerPopupMaxHeight > height -> height
-      else -> spinnerPopupMaxHeight
+      spinnerPopupMaxHeight == NO_INT_VALUE -> height + topBottomPadding
+      spinnerPopupMaxHeight > height -> height + topBottomPadding
+      else -> spinnerPopupMaxHeight + topBottomPadding
     }
   }
 
