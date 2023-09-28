@@ -671,8 +671,7 @@ public class PowerSpinnerView : AppCompatTextView, DefaultLifecycleObserver {
     if (layoutManager is GridLayoutManager) {
       return itemSize * (spinnerItemHeight + dividerSize) / layoutManager.spanCount
     }
-    val topBottomPadding = padding.top + padding.bottom
-    return (itemSize * (spinnerItemHeight + dividerSize)) + topBottomPadding
+    return itemSize * (spinnerItemHeight + dividerSize)
   }
 
   /** gets the spinner popup's body. */
@@ -778,10 +777,11 @@ public class PowerSpinnerView : AppCompatTextView, DefaultLifecycleObserver {
 
   /** Returns the window height size of the spinner. */
   public fun getSpinnerHeight(): Int {
+    val topBottomPadding = padding.top + padding.bottom
     val height = when {
-      spinnerPopupHeight != NO_INT_VALUE -> spinnerPopupHeight
-      spinnerItemHeight != NO_INT_VALUE -> calculateSpinnerHeight()
-      else -> getSpinnerRecyclerView().height
+      spinnerPopupHeight != NO_INT_VALUE -> spinnerPopupHeight + topBottomPadding
+      spinnerItemHeight != NO_INT_VALUE -> calculateSpinnerHeight() + topBottomPadding
+      else -> getSpinnerBodyView().height
     }
     return when {
       spinnerPopupMaxHeight == NO_INT_VALUE -> height
